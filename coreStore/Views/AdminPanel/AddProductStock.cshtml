@@ -1,0 +1,88 @@
+﻿@model EntityLayer.Concrete.ProductDetail
+
+@{
+    ViewData["Title"] = "AddProductStock";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <form class="form-group" method="post" enctype="multipart/form-data">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Ürünlerim /</span> Ürün Ekle</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <!--<div class="mb-3 row align-items-center">-->
+                            <!-- Updated: Added align-items-center -->
+                            <!--<label for="html5-text-input" class="col-md-2 col-form-label">Beden</label>
+                    <div class="col-md-6">
+                        <input type="range" class="form-range" min="0" max="5" id="formRange2" />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mt-2" id="selectedSizeContainer">-->
+                            <!-- Yeni eklenen div -->
+                            <!--<div id="selectedSize">XS</div>
+                            </div>
+                        </div>
+                    </div>-->
+                            @Html.HiddenFor(x => x.ProductID)
+                            <div class="mb-3 row">
+                                <label for="html5-color-input" class="col-md-2 col-form-label">Beden</label>
+                                @*<div class="col-md-10">
+                                <input class="form-control" type="color" value="#666EE8" id="html5-color-input" />
+                            </div>*@
+                                <div class="col-md-10 d-flex align-items-center">
+                                    <select asp-for="ProductSize" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                                        <option selected></option>
+                                        <option value="XS">XS</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="html5-color-input" class="col-md-2 col-form-label">Rengi</label>
+                                @*<div class="col-md-10">
+                                <input class="form-control" type="color" value="#666EE8" id="html5-color-input" />
+                            </div>*@
+                                <div class="col-md-10 d-flex align-items-center">
+                                    <select asp-for="ProductColor" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                                        <option selected></option>
+                                        <option value="Kırmızı">Kırmızı</option>
+                                        <option value="Siyah">Siyah</option>
+                                        <option value="Mavi">Mavi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Stok Adeti</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="" id="stockInput" name="ProductStock" />
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Fiyat</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="" id="stockInput" name="ProductPrice" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Stok Ekle</button>
+            </div>
+        </form>
+    </div>
+</div>

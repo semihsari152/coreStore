@@ -1,0 +1,65 @@
+﻿@using EntityLayer.Concrete
+@model List<Product>
+
+@{
+    ViewData["Title"] = "MyProducts";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Sayfalar /</span> Ürünlerim</h4>
+
+        <div class="card">
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Ürün Kodu</th>
+                            <th>Marka</th>
+                            <th>Cinsiyet</th>
+                            <th>Durum</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td onclick="window.location='/AdminPanel/MyProductsDetails/@item.ProductID';" style="cursor: pointer;">
+                                    <i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong>@item.ProductName</strong>
+                                </td>
+                                <td onclick="window.location='/AdminPanel/MyProductsDetails/@item.ProductID';" style="cursor: pointer;">@item.ProductID</td>
+                                <td onclick="window.location='/AdminPanel/MyProductsDetails/@item.ProductID';" style="cursor: pointer;">
+                                    @item.ProductBrand
+                                </td>
+                                <td onclick="window.location='/AdminPanel/MyProductsDetails/@item.ProductID';" style="cursor: pointer;">
+                                    @item.ProductGender
+                                </td>
+                                <td onclick="window.location='/AdminPanel/MyProductsDetails/@item.ProductID';" style="cursor: pointer;"><span class="badge bg-label-primary me-1">Active</span></td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="@Url.Action("AddProductStock", "AdminPanel", new { productId = item.ProductID })"><i class="bx bx-add-to-queue me-1"></i>Stok Ekle</a>
+
+                                            <a class="dropdown-item" href="/AdminPanel/UpdateProduct/@item.ProductID"><i class="bx bx-edit-alt me-1"></i> Düzenle</a>
+                                            <a class="dropdown-item" href="/AdminPanel/DeleteProduct/@item.ProductID"><i class="bx bx-trash me-1"></i> Sil</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Buton -->
+        <div class="text-left mt-3">
+            <a href="/AdminPanel/AddProduct" class="btn btn-primary">Yeni Ürün Ekle</a>
+        </div>
+    </div>
+</div>

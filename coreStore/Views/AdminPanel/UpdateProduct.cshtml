@@ -1,0 +1,161 @@
+﻿@model EntityLayer.Concrete.Product
+
+@{
+    ViewData["Title"] = "UpdateProduct";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<!-- Content wrapper -->
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Ürünlerim /</span> Ürün Ekle</h4>
+        @using (Html.BeginForm("UpdateProduct", "AdminPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.ProductID)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Ürün Adı</label>
+                                @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control" })
+                            </div>
+                            <div>
+                                <label for="exampleFormControlTextarea1" class="form-label">Ürün Detayları</label>
+                                @Html.TextAreaFor(x => x.ProductDetail, new { @class = "form-control", rows = 4 })
+                            </div>
+                            <div>
+                                <label for="exampleFormControlTextarea1" class="form-label">Ürün Açıklamaları</label>
+                                @Html.TextAreaFor(x => x.ProductFeatures, new { @class = "form-control", rows = 4 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <!-- HTML5 Inputs -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+
+
+
+                            <div class="mb-3 row">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Kategori</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(x => x.SubCategoryID, (List<SelectListItem>)ViewBag.pv, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Fiyat</label>
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(x => x.ProductPrice, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Marka</label>
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(x => x.ProductBrand, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <!-- Cinsiyet -->
+                            <div class="mb-3 row align-items-center">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Cinsiyet</label>
+                                <div class="col-md-10">
+                                    <div class="form-check form-check-inline">
+                                        @Html.RadioButtonFor(x => x.ProductGender, "Erkek", new { @class = "form-check-input", id = "inlineRadio1" })
+                                        <label class="form-check-label align-middle" for="inlineRadio1">Erkek</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        @Html.RadioButtonFor(x => x.ProductGender, "Kadın", new { @class = "form-check-input", id = "inlineRadio2" })
+                                        <label class="form-check-label align-middle" for="inlineRadio2">Kadın</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        @Html.RadioButtonFor(x => x.ProductGender, "Unisex", new { @class = "form-check-input", id = "inlineRadio3" })
+                                        <label class="form-check-label align-middle" for="inlineRadio3">Unisex</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ücretsiz Kargo Bilgisi ve Switch -->
+                            <div class="mb-3 row align-items-center">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Ücretsiz Kargo</label>
+                                <div class="col-md-10">
+                                    <div class="form-check form-switch mb-2">
+                                        @Html.CheckBoxFor(x => x.ProductFreeShippingInfo, new { @class = "form-check-input", id = "flexSwitchCheckChecked" })
+                                        <label class="form-check-label ml-2" for="flexSwitchCheckChecked"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <!-- HTML5 Inputs -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Ürün Görselleri</label>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary">Güncelle</button>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+
+<script>
+    var rangeInput = document.getElementById('formRange2');
+    var selectedSizeDiv = document.getElementById('selectedSize');
+    var form = document.getElementById('myForm');
+
+    rangeInput.addEventListener('input', function () {
+        var selectedValue = parseInt(rangeInput.value);
+
+        var bedenler = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+        if (selectedValue >= 0 && selectedValue < bedenler.length) {
+            var selectedSizeValue = bedenler[selectedValue];
+            selectedSizeDiv.innerHTML = selectedSizeValue;
+
+            // Send the selected size value to the server
+            updateProductSize(selectedSizeValue);
+        }
+    });
+
+    function updateProductSize(selectedSize) {
+        fetch('/Product/UpdateProductSize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ productSize: selectedSize }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server if needed
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
+
+<style>
+    .form-range {
+        width: 100%;
+    }
+</style>
+

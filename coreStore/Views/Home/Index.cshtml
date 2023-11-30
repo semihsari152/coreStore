@@ -1,8 +1,89 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/StoreLayout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@await Component.InvokeAsync("HomePageItemNumbers")
+@await Component.InvokeAsync("HomePageNewProducts")
+
+<!-- Banner Section Begin -->
+<section class="banner set-bg" data-setbg="/ashion-master/img/banner/banner-1.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-8 m-auto">
+                <div class="banner__slider owl-carousel">
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>Yazı 1</span>
+                            <h1>Alt Yazı 1</h1>
+                            <a href="/Product/Index/">Şimdi Satın Al</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>Yazı 2</span>
+                            <h1>Alt Yazı 2</h1>
+                            <a href="/Product/Index/">Şimdi Satın Al</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>Yazı 3</span>
+                            <h1>Alt Yazı 3</h1>
+                            <a href="/Product/Index/">Şimdi Satın Al</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Banner Section End -->
+<!-- Trend Section Begin -->
+<section class="trend spad">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("HomePageHotTrends")
+            @await Component.InvokeAsync("HomePageBestSellers")
+            @await Component.InvokeAsync("HomePageLastItems")
+        </div>
+    </div>
+</section>
+<!-- Trend Section End -->
+@await Component.InvokeAsync("HomePageDiscountCountdown")
+<!-- Services Section Begin -->
+<section class="services spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-car"></i>
+                    <h6>Ücretsiz Kargo</h6>
+                    <p>200 ₺ ve üzeri</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-money"></i>
+                    <h6>Geri Ödeme Garantisi</h6>
+                    <p>Eğer sıkıntı yaşarsanız</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-support"></i>
+                    <h6>Çevirmiçi Destek 24/7</h6>
+                    <p>Donanımlı Destek</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-headphones"></i>
+                    <h6>Ödeme Güvenliği</h6>
+                    <p>100% güvenli ödeme</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services Section End -->

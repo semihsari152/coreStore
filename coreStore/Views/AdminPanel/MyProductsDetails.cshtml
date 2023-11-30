@@ -1,0 +1,150 @@
+﻿@model EntityLayer.Concrete.Product
+
+@{
+    ViewData["Title"] = "MyProductsDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h5 class="pb-1 mb-4">Ürün Detay</h5>
+
+        <div class="row mb-5">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <img class="card-img-top" src="~/images/@Model.MainProductImage" alt="Card image cap" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.ProductName</h5>
+                        <p class="card-text">@Model.ProductBrand</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            @if (Model.ProductFreeShippingInfo)
+                            {
+                                <span>Ücretsiz Kargo</span>
+                            }
+                            else
+                            {
+                                <span>Ücretli Kargo</span>
+                            }
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Oluşturulma Tarihi</h5>
+                        <p class="card-text">
+                            @Model.ProductCreateDate
+                        </p>
+                        <h5 class="card-title">Güncellenme Tarihi</h5>
+                        <p class="card-text">
+                            @Model.ProductUpdateDate
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Ürün Detayları</h5>
+                        <p class="card-text">
+                            @Model.ProductDetail
+                        </p>
+                    </div>
+                </div>
+
+
+            </div>
+            <style>
+                .size-badge {
+                    margin-right: 5px;
+                }
+
+                .price-badge {
+                    background-color: #6c757d;
+                    margin-left: 5px;
+                }
+            </style>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card mb-4">
+                    <h5 class="card-header">Stok Sayısı</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mt-3">
+                                <div class="row">
+                                    <div class="col-md-4 col-12 mb-3 mb-md-0">
+                                        <div class="list-group">
+                                            @foreach (var color in Model.ProductDetails
+                                               .Select(detail => detail.ProductColor)
+                                               .Distinct())
+                                            {
+                                                <a class="list-group-item list-group-item-action"
+                                                   id="color-@color.ToLowerInvariant()"
+                                                   data-bs-toggle="list"
+                                                   href="#list-@color.ToLowerInvariant()">@color</a>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <div class="tab-content p-0">
+                                            @foreach (var color in Model.ProductDetails
+                                               .Select(detail => detail.ProductColor)
+                                               .Distinct())
+                                            {
+                                                <div class="tab-pane fade"
+                                                     id="list-@color.ToLowerInvariant()">
+                                                    <ul>
+                                                        @foreach (var sizeDetail in Model.ProductDetails
+                                                           .Where(detail => detail.ProductColor == color)
+                                                           .GroupBy(detail => new { detail.ProductSize, detail.ProductPrice })
+                                                           .Select(group => new { Size = group.Key.ProductSize, Count = group.Count(), ProductPrice = group.Key.ProductPrice, Stock = group.Sum(g => g.ProductStock) }))
+                                                        {
+                                                            <li>
+                                                                <span class="size-badge badge bg-secondary">@sizeDetail.Size</span>
+                                                                <span class="stock-badge badge bg-success">@sizeDetail.Stock Stokta</span>
+                                                                <span class="price-badge badge bg-primary">@sizeDetail.ProductPrice ₺</span>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Ürün Açıklamaları</h5>
+                        <p class="card-text">
+                            @Model.ProductFeatures
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                // Renk listesine tıklandığında ilgili tab'i aktifleştir
+                $('.list-group-item').on('click', function () {
+                    var targetId = $(this).attr('href');
+                    $('.tab-pane').removeClass('show active');
+                    $(targetId).addClass('show active');
+                });
+            </script>
+
+        </div>
+        <!-- Buton -->
+        <div class="text-left mt-3">
+            <a href="/AdminPanel/UpdateProduct/@Model.ProductID" class="btn btn-primary">Güncelle</a>
+        </div>
+    </div>
+</div>

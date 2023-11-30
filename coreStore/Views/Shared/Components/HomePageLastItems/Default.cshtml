@@ -1,0 +1,29 @@
+﻿@using EntityLayer.Concrete
+@model List<Product>
+
+<div class="col-lg-4 col-md-4 col-sm-6">
+    <div class="trend__content">
+        <div class="section-title">
+            <h4>Son Eklenen</h4>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="trend__item">
+                <div class="trend__item__pic">
+                    <img src="/images/@item.MainProductImage" alt="" width="90" height="90">
+                </div>
+                <div class="trend__item__text">
+                    <h6>@item.ProductName</h6>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <div class="product__price">@item.ProductPrice ₺</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
