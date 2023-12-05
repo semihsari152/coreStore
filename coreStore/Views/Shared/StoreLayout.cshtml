@@ -97,27 +97,41 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="#">Giriş Yap</a>
-                            <a href="#">Kayıt Ol</a>
+                        <div id="authSection" class="header__right__auth">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a href="/Login/Logout">Çıkış Yap</a>
+                            }
+                            else
+                            {
+                                <a href="/Login/Login/">Giriş Yap</a>
+                                <a href="#">Kayıt Ol</a>
+                            }
                         </div>
+
+                        
                         <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li>
-                                <a href="#">
-                                    <span class="icon_heart_alt"></span>
-                                    <div class="tip">2</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="icon_bag_alt"></span>
-                                    <div class="tip">2</div>
-                                </a>
-                            </li>
-                        </ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li id="profileLink">
+                                    <a href="#">
+                                        <span class="icon_profile" id="profileIcon"></span>
+                                    </a>
+                                </li>
+                            }
+                                <li><span class="icon_search search-switch"></span></li>
+                                <li>
+                                    <a href="#">
+                                        <span class="icon_cart_alt"></span>
+                                        @*<div class="tip">2</div>*@
+                                    </a>
+                                </li>
+                            </ul>
+                        
                     </div>
                 </div>
+
+
             </div>
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
@@ -262,7 +276,7 @@
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch">+</div>
             <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
+                <input type="text" id="search-input" placeholder="Ara.....">
             </form>
         </div>
     </div>

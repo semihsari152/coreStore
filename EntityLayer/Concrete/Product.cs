@@ -27,5 +27,7 @@ namespace EntityLayer.Concrete
         public SubCategory SubCategory { get; set; }
 
         public ICollection<ProductDetail> ProductDetails { get; set; }
+        public ICollection<LikedProduct> LikedProducts { get; set; }
+
     }
 }

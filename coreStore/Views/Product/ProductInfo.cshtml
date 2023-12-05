@@ -55,140 +55,155 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>@Model.ProductName <span>Marka: @Model.ProductBrand</span></h3>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <span>( 138 yorum )</span>
-                    </div>
-                    @*<div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>*@
-                    <div class="product__details__price">@Model.ProductPrice ₺</div>
-                    <p>
-                        @Model.ProductDetail
-                    </p>
-                    <div class="product__details__button">
-                        @if (Model.ProductDetails.Any(detail => detail.ProductStock > 0))
-                        {
-                            <div class="quantity">
-                                <span>Adet:</span>
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
-
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Sepete Ekle</a>
-                        }
-                        <ul>
-                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                        </ul>
-                    </div>
-
-                    <div class="product__details__widget">
-                        <ul>
-                            <li>
-                                <span>Stok:</span>
-
-                                <p>
-                                    @if (Model.ProductDetail != null && Model.ProductDetails.Any(detail => detail.ProductStock > 0))
-                                    {
-                                        <text>Stokta Var</text>
-                                    }
-                                    else
-                                    {
-                                        <text>Stokta Yok</text>
-                                    }
-                                </p>
-
-                            </li>
+                    <form method="post" action="/Cart/AddToCart">
+                        <h3>@Model.ProductName <span>Marka: @Model.ProductBrand</span></h3>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>( 138 yorum )</span>
+                        </div>
+                        @*<div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>*@
+                        <div class="product__details__price">@Model.ProductPrice ₺</div>
+                        <p>
+                            @Model.ProductDetail
+                        </p>
+                        <div class="product__details__button">
                             @if (Model.ProductDetails.Any(detail => detail.ProductStock > 0))
                             {
-                                <li>
-                                    <span>Mevcut Renkler:</span>
-                                    <div class="color__checkbox">
-                                        @foreach (var color in Model.ProductDetails
-                                    .Where(detail => detail.ProductStock > 0)
-                                    .Select(detail => detail.ProductColor)
-                                    .Distinct())
-                                        {
-                                            var lowerCaseColor = color.ToLower();
-                                            var cssClass = lowerCaseColor switch
-                                            {
-                                                "siyah" => "black-bg",
-                                                "mavi" => "blue-bg",
-                                                "kırmızı" => "red-bg",
-                                                "sarı" => "yellow-bg",
-                                                "beyaz" => "gray-light-bg", // Hafif gri tonu
-                                                _ => "unknown-color",
-                                            };
+                                <div class="quantity">
+                                    <span>Adet:</span>
 
-                                            <label for="@lowerCaseColor">
-                                                <input type="radio" name="color__radio" id="@lowerCaseColor">
-                                                <span class="checkmark @cssClass"></span>
-                                            </label>
-                                        }
+                                    <input type="hidden" name="ProductID" value="@Model.ProductDetails.FirstOrDefault().ProductStock">
+                                    <div class="pro-qty">
+                                        <input type="text" value="1">
                                     </div>
-                                </li>
-                            }
 
-                            @if (Model.ProductDetails.Any(detail => detail.ProductStock > 0))
-                            {
+                                </div>
+
+                                <input type="submit" class="cart-btn" value="Sepete Ekle">
+
+                            }
+                            <ul>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="product__details__widget">
+                            <ul>
                                 <li>
-                                    <span>Mevcut Bedenler:</span>
-                                    <div class="size__btn">
-                                        @if (Model.ProductDetails.Any())
+                                    <span>Stok:</span>
+
+                                    <p>
+                                        @if (Model.ProductDetail != null && Model.ProductDetails.Any(detail => detail.ProductStock > 0))
                                         {
-                                            @foreach (var size in Model.ProductDetails
-                           .Select(detail => detail.ProductSize)
-                           .Distinct()
-                           .OrderBy(size => GetSizeOrder(size)))
+                                            <text>Stokta Var</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Stokta Yok</text>
+                                        }
+                                    </p>
+
+                                </li>
+                                @if (Model.ProductDetails.Any(detail => detail.ProductStock > 0))
+                                {
+                                    <li>
+                                        <span>Mevcut Renkler:</span>
+                                        <input type="hidden" name="ProductColor" value="@Model.ProductDetails.FirstOrDefault().ProductColor">
+                                        <div class="color__checkbox">
+                                            @foreach (var color in Model.ProductDetails
+                                     .Where(detail => detail.ProductStock > 0)
+                                     .Select(detail => detail.ProductColor)
+                                     .Distinct())
                                             {
-                                                var isAvailable = Model.ProductDetails.Any(detail => detail.ProductSize == size && detail.ProductStock > 0);
-                                                var inputId = $"{size.ToLower()}-size";
-                                                <label for="@inputId" @(isAvailable ? "class='active'" : "")>
-                                                    <input type="radio" id="@inputId" @(isAvailable ? "checked" : "")>
-                                                    @size
+                                                var lowerCaseColor = color.ToLower();
+                                                var cssClass = lowerCaseColor switch
+                                                {
+                                                    "siyah" => "black-bg",
+                                                    "mavi" => "blue-bg",
+                                                    "kırmızı" => "red-bg",
+                                                    "sarı" => "yellow-bg",
+                                                    "beyaz" => "gray-light-bg", // Hafif gri tonu
+                                                    _ => "unknown-color",
+                                                };
+
+                                                <label for="@lowerCaseColor">
+                                                    <input type="radio" name="color__radio" id="@lowerCaseColor">
+                                                    <span class="checkmark @cssClass"></span>
                                                 </label>
                                             }
-                                        }
-                                    </div>
-                                </li>
-                            }
-                            @functions {
-                                // Beden sıralama fonksiyonu
-                                int GetSizeOrder(string size)
+                                        </div>
+                                    </li>
+                                }
+
+                                @if (Model.ProductDetails.Any(detail => detail.ProductStock > 0))
                                 {
-                                    switch (size)
+                            <li>
+                                <span>Mevcut Bedenler:</span>
+                                <input type="hidden" name="ProductSize" value="@Model.ProductDetails.FirstOrDefault().ProductSize">
+
+                                <div class="size__btn">
+                                    @if (Model.ProductDetails.Any())
                                     {
-                                        case "XS": return 0;
-                                        case "S": return 1;
-                                        case "M": return 2;
-                                        case "L": return 3;
-                                        case "XL": return 4;
-                                        case "XXL": return 5;
-                                        default: return int.MaxValue; // Bilinmeyen bedenleri en sona koy
+                                        @foreach (var size in Model.ProductDetails
+                     .Select(detail => detail.ProductSize)
+                     .Distinct()
+                     .OrderBy(size => GetSizeOrder(size)))
+                                        {
+                                            var isAvailable = Model.ProductDetails.Any(detail => detail.ProductSize == size && detail.ProductStock > 0);
+                                            var inputId = $"{size.ToLower()}-size";
+                                            <label for="@inputId" @(isAvailable ? "class='active'" : "")>
+                                                <input type="radio" id="@inputId" @(isAvailable ? "checked" : "")>
+                                                @size
+                                            </label>
+                                        }
+                                    }
+                                </div>
+
+                            </li>
+                                }
+                                @functions {
+                                    // Beden sıralama fonksiyonu
+                                    int GetSizeOrder(string size)
+                                    {
+                                        switch (size)
+                                        {
+                                            case "XS": return 0;
+                                            case "S": return 1;
+                                            case "M": return 2;
+                                            case "L": return 3;
+                                            case "XL": return 4;
+                                            case "XXL": return 5;
+                                            default: return int.MaxValue; // Bilinmeyen bedenleri en sona koy
+                                        }
                                     }
                                 }
-                            }
-                            @if (Model.ProductFreeShippingInfo)
-                            {
-                                <li>
-                                    <span>Kargo:</span>
-                                    <p>
-                                        <span>Ücretsiz Kargo</span>
+                                @if (Model.ProductFreeShippingInfo)
+                                {
+                                    <li>
+                                        <span>Kargo:</span>
+                                        <p>
+                                            <span>Ücretsiz Kargo</span>
 
-                                    </p>
-                                </li>
-                            }
-                        </ul>
-                    </div>
+                                        </p>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </form>
                 </div>
+        
             </div>
+
+
+
             <div class="col-lg-12">
                 <div class="product__details__tab">
                     <ul class="nav nav-tabs" role="tablist">

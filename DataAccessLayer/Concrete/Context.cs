@@ -23,6 +23,8 @@ namespace DataAccessLayer.Concrete
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<LikedProduct> LikedProducts { get; set; }
 
     }
 }

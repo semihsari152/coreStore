@@ -14,38 +14,56 @@
                     <li class="active" data-filter="*">Tümü</li>
                     <li data-filter=".women">Kadın</li>
                     <li data-filter=".men">Erkek</li>
-                    <li data-filter=".accessories">Aksesuar</li>
+                    <li data-filter=".unisex">Unisex</li>
                 </ul>
             </div>
         </div>
         <div class="row property__gallery">
             @foreach (var item in Model)
             {
-            <div class="col-lg-3 col-md-4 col-sm-6 mix women">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="/images/@item.MainProductImage">
-                        <div class="label new">New</div>
-                        <ul class="product__hover">
-                            <li><a href="/images/@item.MainProductImage" class="image-popup"><span class="arrow_expand"></span></a></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="/Product/ProductInfo/@item.ProductID"><span class="icon_bag_alt"></span></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6><a href="#">@item.ProductName</a></h6>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix @GetGenderClass(item.ProductGender)">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/images/@item.MainProductImage">
+                            <div class="label new">Yeni</div>
+                            <ul class="product__hover">
+                                <li><a href="/images/@item.MainProductImage" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="/Product/LikeProduct/@item.ProductID"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="/Product/ProductInfo/@item.ProductID"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
                         </div>
-                        <div class="product__price">@item.ProductPrice ₺</div>
+                        <div class="product__item__text">
+                            <h6><a href="#">@item.ProductName</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">@item.ProductPrice ₺</div>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>
 </section>
+
+@functions {
+    // Cinsiyet bilgisine göre CSS sınıfı döndüren yardımcı bir metod
+    string GetGenderClass(string gender)
+    {
+        switch (gender.ToLower())
+        {
+            case "erkek":
+                return "men";
+            case "kadın":
+                return "women";
+            case "unisex":
+                return "unisex";
+            default:
+                return ""; // Belki diğer durumlar için özel işlemler ekleyebilirsiniz.
+        }
+    }
+}
 <!-- Product Section End -->
